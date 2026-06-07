@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memora — Your Memory Collection</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">MEMORA</div>
+    <div class="nav-links">
+      <a href="#" class="active">Home</a>
+      <a href="#" onclick="showSection('memories')">Memories</a>
+      <a href="#" onclick="showSection('favorites')">Favorites</a>
+    </div>
+    <div class="nav-right">
+      <button class="add-btn" onclick="openModal()">+ Add Memory</button>
+      <div class="avatar">ME</div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">Your personal archive</p>
+      <h1>Every moment,<br/>beautifully kept.</h1>
+      <p class="hero-sub">A cinematic vault for the memories that made you.</p>
+      <button class="hero-btn" onclick="openModal()">Add Your First Memory →</button>
+    </div>
+    <div class="hero-bg">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="blob blob3"></div>
+    </div>
+  </section>
+
+  <!-- FEATURED MEMORY -->
+  <section class="featured-section" id="featured-section">
+    <h2 class="section-title">Featured Memory</h2>
+    <div class="featured-card" id="featured-card">
+      <div class="featured-overlay">
+        <div class="featured-tag">⭐ Favorite</div>
+        <h2 id="featured-title">My First Road Trip</h2>
+        <p id="featured-desc">The summer we drove 1,200 miles with no plan, only vibes and terrible playlists. Every gas station felt like an adventure.</p>
+        <div class="featured-meta">
+          <span id="featured-date">📅 June 2019</span>
+          <span id="featured-category">🗺️ Adventure</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY ROW -->
+  <section class="row-section">
+    <div class="row-header">
+      <h2 class="section-title">Browse by Mood</h2>
+    </div>
+    <div class="category-pills">
+      <button class="pill active" onclick="filterCategory('all')">All</button>
+      <button class="pill" onclick="filterCategory('adventure')">🗺️ Adventure</button>
+      <button class="pill" onclick="filterCategory('family')">👨‍👩‍👧 Family</button>
+      <button class="pill" onclick="filterCategory('love')">💛 Love</button>
+      <button class="pill" onclick="filterCategory('milestone')">🏆 Milestone</button>
+      <button class="pill" onclick="filterCategory('travel')">✈️ Travel</button>
+      <button class="pill" onclick="filterCategory('fun')">🎉 Fun</button>
+    </div>
+  </section>
+
+  <!-- MEMORY GRID -->
+  <section class="grid-section">
+    <h2 class="section-title">All Memories</h2>
+    <div class="memory-grid" id="memory-grid">
+      <!-- Cards rendered by JS -->
+    </div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <p>No memories yet. Add your first one!</p>
+      <button class="hero-btn" onclick="openModal()">+ Add Memory</button>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2 class="modal-title">New Memory</h2>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="mem-title" placeholder="Give this memory a name..." />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="mem-desc" rows="3" placeholder="What happened? How did it feel?"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="month" id="mem-date" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="mem-category">
+            <option value="adventure">🗺️ Adventure</option>
+            <option value="family">👨‍👩‍👧 Family</option>
+            <option value="love">💛 Love</option>
+            <option value="milestone">🏆 Milestone</option>
+            <option value="travel">✈️ Travel</option>
+            <option value="fun">🎉 Fun</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Color Palette</label>
+        <div class="color-picker">
+          <button class="color-dot" style="background:#e8b4a0" data-color="#e8b4a0 #d4847a" onclick="selectColor(this)"></button>
+          <button class="color-dot" style="background:#a0c4e8" data-color="#a0c4e8 #6a8fd4" onclick="selectColor(this)"></button>
+          <button class="color-dot" style="background:#a0e8b4" data-color="#a0e8b4 #6ad4a0" onclick="selectColor(this)"></button>
+          <button class="color-dot" style="background:#d4a0e8" data-color="#d4a0e8 #b46ad4" onclick="selectColor(this)"></button>
+          <button class="color-dot" style="background:#e8d4a0" data-color="#e8d4a0 #d4b46a" onclick="selectColor(this)"></button>
+          <button class="color-dot" style="background:#e8a0c4" data-color="#e8a0c4 #d46a9a" onclick="selectColor(this)"></button>
+        </div>
+      </div>
+      <div class="form-group checkbox-group">
+        <label><input type="checkbox" id="mem-fav" /> Mark as Favorite ⭐</label>
+      </div>
+      <button class="save-btn" onclick="saveMemory()">Save Memory</button>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal-overlay" id="detail-modal" onclick="closeDetail(event)">
+    <div class="modal-box detail-box">
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+      <div class="detail-header" id="detail-header"></div>
+      <h2 class="detail-title" id="detail-title"></h2>
+      <p class="detail-desc" id="detail-desc"></p>
+      <div class="detail-meta">
+        <span id="detail-date"></span>
+        <span id="detail-category"></span>
+      </div>
+      <div class="detail-actions">
+        <button class="detail-fav-btn" id="detail-fav-btn" onclick="toggleFavFromDetail()">☆ Favorite</button>
+        <button class="detail-del-btn" onclick="deleteFromDetail()">🗑 Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Made with 🤍 — your memories deserve a beautiful home.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
